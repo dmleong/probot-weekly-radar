@@ -1,0 +1,51 @@
+{
+  "name": "starcamps-weekly-radar",
+  "version": "1.0.0",
+  "description": "A Probot app",
+  "author": "Danielle Leong <dmleong@users.noreply.github.com>",
+  "license": "ISC",
+  "repository": "https://github.com//weekly-radar.git",
+  "homepage": "https://github.com//weekly-radar",
+  "bugs": "https://github.com//weekly-radar/issues",
+  "keywords": [
+    "probot",
+    "github",
+    "probot-app"
+  ],
+  "scripts": {
+    "dev": "nodemon",
+    "start": "probot run ./index.js",
+    "lint": "standard --fix",
+    "test": "jest && standard",
+    "test:watch": "jest --watch --notify --notifyMode=change --coverage"
+  },
+  "dependencies": {
+    "node-emoji": "^1.10.0",
+    "probot": "^7.2.0"
+  },
+  "devDependencies": {
+    "jest": "^24.0.0",
+    "nock": "^10.0.0",
+    "nodemon": "^1.17.2",
+    "smee-client": "^1.0.2",
+    "standard": "^12.0.1"
+  },
+  "engines": {
+    "node": ">= 8.3.0"
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ]
+  },
+  "nodemonConfig": {
+    "exec": "npm start",
+    "watch": [
+      ".env",
+      "."
+    ]
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}

@@ -1,1 +1,1 @@
-# probot-weekly-radar
+# starcamps-weekly-radar
