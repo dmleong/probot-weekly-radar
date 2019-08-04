@@ -1,4 +1,6 @@
-node_modules
+node_modules*
 .env
 *.pem
 .DS_Store
+credentials.json
+google-sheets-token.json
