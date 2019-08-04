@@ -1,3 +1,14 @@
+var GoogleSpreadsheet = require('google-spreadsheet');
+var creds = require('./google-sheets-token.json');
+const { promisify } = require('util');
+
+// Create a document object using the ID of the spreadsheet - obtained from its URL.
+const SPREADSHEET_ID = '1rvWot0ZcBJVs-z9QU32snG4SyIMwhyC4oSXYMHP73VI';
+const SPREADSHEET_TITLE = 'Test data'
+var data = []
+var feature = 'MVP feature 1'
+
+
 /**
  * This is the main entrypoint to your Probot app
  * @param {import('probot').Application} app
@@ -22,7 +33,8 @@ module.exports = app => {
         const status_emoji = payload.comment.body.match(regex)[1].split(' ')[2]
         var emoji = require('node-emoji')
         app.log(emoji.emojify(status_emoji))
-        
+        accessSpreadsheet(emoji.emojify(status_emoji))
+
         // Post a comment on the issue
         // return context.github.issues.createComment(params)
       } else {
@@ -34,5 +46,40 @@ module.exports = app => {
   })
 }
 
+async function accessSpreadsheet(status_emoji) {
+  const doc = new GoogleSpreadsheet(SPREADSHEET_ID)
+  await promisify(doc.useServiceAccountAuth)(creds)
+  const info = await promisify(doc.getInfo)()
+  console.log(`Loaded doc: ` + info.title + ` by ` + info.author.email)
+  const sheet = info.worksheets.find(o => o.title === SPREADSHEET_TITLE)
 
-// "body": "- Project Status: :recycle: \r\n- Projected Ship Date: Nov 2019\r\n- Next Major Deliverable\r\n  - Description: getting front end talking to Go backend instead of dotcom GraphQL API\r\n  - Delivery Date: :calendar: Aug 2\r\n- What Happened This Week\r\n  - Markdown formatting\r\n  - Link formatting for GitHub links\r\n  - Storybook works in dev again\r\n  - Emoji support exploration\r\n- What We're Planning Next Week\r\n  - Pagination"
+  const cells = await promisify(sheet.getCells)({
+      'min-row': 1,
+      'max-row': sheet.rowCount,
+      'min-col': 1,
+      'max-col': sheet.colCount,
+      'return-empty': true,
+  })
+
+  for (const cell of cells) {
+      // console.log(`${cell.row},${cell.col}: ${cell.value}`)
+      if (cell.value === feature) {
+        cell.col += 1
+        data.push(cells.indexOf(cell) + 1)
+      }
+  }
+
+  var cell = cells[data[0]];
+  // cells have a value, numericValue, and formula
+  // updating `value` is "smart" and generally handles things for you
+  cell.value = status_emoji;
+  console.log('Spreadsheet updated!!')
+  await cell.save(); //async
+  //
+  // // bulk updates make it easy to update many cells at once
+  // cells[0].value = 1;
+  // cells[1].value = 2;
+  // cells[2].formula = '=A1+B1';
+  // await sheet.bulkUpdateCells(cells); //async
+
+}
