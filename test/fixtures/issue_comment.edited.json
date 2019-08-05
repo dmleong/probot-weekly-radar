@@ -1,5 +1,10 @@
 {
-  "action": "opened",
+  "action": "edited",
+  "changes": {
+    "body": {
+      "from": "Stardust update\r\n- [ ] 💚 All good \r\n- [ ] ⚠ Behind schedule \r\n- [ ] 🔥 Blocked and in danger"
+    }
+  },
   "issue": {
     "url": "https://api.github.com/repos/dmleong/hello-world-actions/issues/13",
     "repository_url": "https://api.github.com/repos/dmleong/hello-world-actions",
@@ -48,12 +53,43 @@
 
     ],
     "milestone": null,
-    "comments": 0,
+    "comments": 14,
     "created_at": "2019-08-05T02:24:22Z",
-    "updated_at": "2019-08-05T02:24:22Z",
+    "updated_at": "2019-08-05T03:59:52Z",
     "closed_at": null,
     "author_association": "OWNER",
     "body": "Here's the **Weekly Digest** for [*dmleong/hello-world-actions*](https://github.com/dmleong/hello-world-actions):\r\n\r\n - - - \r\n# ISSUES\r\nLast week 5 issues were created.\r\nOf these, 2 issues have been closed and 3 issues are still open.\r\n## OPEN ISSUES\r\n:green_heart: #5 [A new test issue](https://github.com/dmleong/hello-world-actions/issues/5), by [dmleong](https://github.com/dmleong)\r\n:green_heart: #4 [Test](https://github.com/dmleong/hello-world-actions/issues/4), by [dmleong](https://github.com/dmleong)\r\n:green_heart: #3 [Congratulations](https://github.com/dmleong/hello-world-actions/issues/3), by [github-learning-lab[bot]](https://github.com/apps/github-learning-lab)\r\n## CLOSED ISSUES\r\n:heart: #2 [Add Dockerfile](https://github.com/dmleong/hello-world-actions/pull/2), by [dmleong](https://github.com/dmleong)\r\n:heart: #1 [Welcome](https://github.com/dmleong/hello-world-actions/issues/1), by [github-learning-lab[bot]](https://github.com/apps/github-learning-lab)\r\n## NOISY ISSUE\r\n:speaker: #5 [A new test issue](https://github.com/dmleong/hello-world-actions/issues/5), by [dmleong](https://github.com/dmleong)\r\nIt received 32 comments.\r\n\r\n - - - \r\n# PULL REQUESTS\r\nLast week, 1 pull request was created, updated or merged.\r\n## MERGED PULL REQUEST\r\nLast week, 1 pull request was merged.\r\n:purple_heart: #2 [Add Dockerfile](https://github.com/dmleong/hello-world-actions/pull/2), by [dmleong](https://github.com/dmleong)\r\n\r\n - - - \r\n# COMMITS\r\nLast week there were 5 commits.\r\n:hammer_and_wrench: [Merge pull request #2 from dmleong/setup-actions  Add Dockerfile](https://github.com/dmleong/hello-world-actions/commit/ba0b414d3bade47af14fcdbffe62fc13584a17fe) by [dmleong](https://github.com/dmleong)\r\n:hammer_and_wrench: [Define action](https://github.com/dmleong/hello-world-actions/commit/b9049dbb7e5f72d4402661d2cd686d79646ec537) by [dmleong](https://github.com/dmleong)\r\n:hammer_and_wrench: [Add workflow file](https://github.com/dmleong/hello-world-actions/commit/53dd5b47956ebd09456b4e069c0532f141f6ad81) by [dmleong](https://github.com/dmleong)\r\n:hammer_and_wrench: [Add entrypoint.sh](https://github.com/dmleong/hello-world-actions/commit/704fd83c831d9ac709a033193752f38fd2f0d8df) by [dmleong](https://github.com/dmleong)\r\n:hammer_and_wrench: [Add Dockerfile](https://github.com/dmleong/hello-world-actions/commit/f305248e7a79aba53b5a9b991544283bfc3cbb75) by [dmleong](https://github.com/dmleong)\r\n\r\n - - - \r\n# CONTRIBUTORS\r\nLast week there was 1 contributor.\r\n:bust_in_silhouette: [dmleong](https://github.com/dmleong)\r\n\r\n - - - \r\n# STARGAZERS\r\nLast week there were no stargazers.\r\n\r\n - - - \r\n# RELEASES\r\nLast week there were no releases.\r\n\r\n - - - \r\n\r\nThat's all for last week, please <kbd>:eyes: **Watch**</kbd> and <kbd>:star: **Star**</kbd> the repository [*dmleong/hello-world-actions*](https://github.com/dmleong/hello-world-actions) to receive next weekly updates. :smiley:\r\n\r\n*You can also [view all Weekly Digests by clicking here](https://github.com/dmleong/hello-world-actions/issues?q=is:open+is:issue+label:weekly-digest).* \r\n\r\n> Your [**Weekly Digest**](https://github.com/apps/weekly-digest) bot. :calendar:\r\n"
+  },
+  "comment": {
+    "url": "https://api.github.com/repos/dmleong/hello-world-actions/issues/comments/518077068",
+    "html_url": "https://github.com/dmleong/hello-world-actions/issues/13#issuecomment-518077068",
+    "issue_url": "https://api.github.com/repos/dmleong/hello-world-actions/issues/13",
+    "id": 518077068,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDUxODA3NzA2OA==",
+    "user": {
+      "login": "new-starcamps-weekly-radar[bot]",
+      "id": 53667250,
+      "node_id": "MDM6Qm90NTM2NjcyNTA=",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/2171822?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/new-starcamps-weekly-radar%5Bbot%5D",
+      "html_url": "https://github.com/apps/new-starcamps-weekly-radar",
+      "followers_url": "https://api.github.com/users/new-starcamps-weekly-radar%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/new-starcamps-weekly-radar%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/new-starcamps-weekly-radar%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/new-starcamps-weekly-radar%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/new-starcamps-weekly-radar%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/new-starcamps-weekly-radar%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/new-starcamps-weekly-radar%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/new-starcamps-weekly-radar%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/new-starcamps-weekly-radar%5Bbot%5D/received_events",
+      "type": "Bot",
+      "site_admin": false
+    },
+    "created_at": "2019-08-05T03:59:38Z",
+    "updated_at": "2019-08-05T03:59:52Z",
+    "author_association": "NONE",
+    "body": "Stardust update\r\n- [x] 💚 All good \r\n- [ ] ⚠ Behind schedule \r\n- [ ] 🔥 Blocked and in danger"
   },
   "repository": {
     "id": 200258087,
