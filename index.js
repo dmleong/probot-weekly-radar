@@ -62,8 +62,7 @@ async function accessSpreadsheet(status_emoji) {
 
   for (const cell of cells) {
       if (cell.value === feature) {
-        // Get the next column to check if it's the right one to update
-        data = cells.indexOf(cell) + 1
+        data = cells.indexOf(cell)
       }
   }
 
