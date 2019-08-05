@@ -23,7 +23,7 @@ module.exports = app => {
       return
     } else {
       // Post a comment on the issue
-      const params = context.issue({ body: 'Stardust update\r\n- [ ] \uD83D\uDC9A All good \r\n- [ ] \u26A0 Behind schedule \r\n- [ ] \uD83D\uDD25 Blocked and in danger' })
+      const params = context.issue({ body: 'Stardust update\r\n- [ ] :recycle: All good \r\n- [ ] :warning: Behind schedule \r\n- [ ] :fire: Blocked and in danger' })
       return context.github.issues.createComment(params)
 
       app.log("Logging app!")
@@ -34,8 +34,10 @@ module.exports = app => {
     const regex = /(\-\s\[x\]\s.)/i
     app.log(context.payload.comment.body)
 
+    //Todo: check if issue comment edit was only the status emoji
+    //and do some validation to match it to the right date/column
     const status_emoji = context.payload.comment.body.match(regex)[1].split(' ')[2]
-    unicode_status = '\\u' + status_emoji.charCodeAt(0).toString(16)
+    // unicode_status = '\\u' + status_emoji.charCodeAt(0).toString(16)
     // TODO: fix emoji encoding
     accessSpreadsheet(status_emoji)
   })
