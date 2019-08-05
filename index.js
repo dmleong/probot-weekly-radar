@@ -5,7 +5,7 @@ const { promisify } = require('util');
 // Create a document object using the ID of the spreadsheet - obtained from its URL.
 const SPREADSHEET_ID = '1rvWot0ZcBJVs-z9QU32snG4SyIMwhyC4oSXYMHP73VI';
 const SPREADSHEET_TITLE = 'Test data'
-var data = []
+var data = 0
 var feature = 'MVP feature 1'
 
 
@@ -27,7 +27,6 @@ module.exports = app => {
       const tracking_issue_number = 5
       const payload = context.payload
       const regex = /(project status: :[^:\s]*(?:::[^:\s]*)*:)/i
-      // const params = context.issue({ body: 'Hello World!' })
 
       if (payload.issue.number === tracking_issue_number && payload.issue.user.type != "Bot" && payload.comment.body.match(regex)) {
         const status_emoji = payload.comment.body.match(regex)[1].split(' ')[2]
@@ -62,24 +61,23 @@ async function accessSpreadsheet(status_emoji) {
   })
 
   for (const cell of cells) {
-      // console.log(`${cell.row},${cell.col}: ${cell.value}`)
       if (cell.value === feature) {
-        cell.col += 1
-        data.push(cells.indexOf(cell) + 1)
+        // Get the next column to check if it's the right one to update
+        data = cells.indexOf(cell) + 1
       }
   }
 
-  var cell = cells[data[0]];
-  // cells have a value, numericValue, and formula
-  // updating `value` is "smart" and generally handles things for you
-  cell.value = status_emoji;
-  console.log('Spreadsheet updated!!')
-  await cell.save(); //async
-  //
-  // // bulk updates make it easy to update many cells at once
-  // cells[0].value = 1;
-  // cells[1].value = 2;
-  // cells[2].formula = '=A1+B1';
-  // await sheet.bulkUpdateCells(cells); //async
+  updateNextEmptyStatusCell(cells, data, status_emoji)
 
+}
+
+async function updateNextEmptyStatusCell(cells, data, status_emoji){
+  do {
+    data++
+  }
+  while (cells[data].value)
+
+  var cell = cells[data];
+  cell.value = status_emoji;
+  await cell.save(); //async
 }
