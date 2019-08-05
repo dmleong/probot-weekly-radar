@@ -23,7 +23,7 @@ module.exports = app => {
       return
     } else {
       // Post a comment on the issue
-      const params = context.issue({ body: 'Stardust update\r\n- [ ] :recycle: All good \r\n- [ ] :warning: Behind schedule \r\n- [ ] :fire: Blocked and in danger' })
+      const params = context.issue({ body: 'Stardust update\r\n- [ ] ♻️ All good \r\n- [ ] ⚠️ Behind schedule \r\n- [ ] 🔥 Blocked and in danger' })
       return context.github.issues.createComment(params)
 
       app.log("Logging app!")
