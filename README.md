@@ -2,6 +2,8 @@
 
 > A GitHub App built with [Probot](https://github.com/probot/probot) that updates spreadsheets based on status update comments
 
+## Demo
+
 ![progress gif](update-spreadsheets-github-checkbox.gif)
 
 ## Setup
