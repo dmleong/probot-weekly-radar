@@ -1,6 +1,6 @@
 # probot-weekly-radar
 
-> A GitHub App built with [Probot](https://github.com/probot/probot) that {{ description }}
+> A GitHub App built with [Probot](https://github.com/probot/probot) that updates spreadsheets based on status update comments
 
 ## Setup
 
