@@ -37,7 +37,6 @@ module.exports = app => {
     //Todo: check if issue comment edit was only the status emoji
     //and do some validation to match it to the right date/column
     const status_emoji = context.payload.comment.body.match(regex)[1].split(' ')[2]
-    // unicode_status = '\\u' + status_emoji.charCodeAt(0).toString(16)
     // TODO: fix emoji encoding
     accessSpreadsheet(status_emoji)
   })
