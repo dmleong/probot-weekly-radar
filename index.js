@@ -76,6 +76,7 @@ async function updateNextEmptyStatusCell(cells, data, status_emoji){
   do {
     data++
   }
+  // TODO: Validate the date to only update the relevant status for the week
   while (cells[data].value)
 
   var cell = cells[data];
