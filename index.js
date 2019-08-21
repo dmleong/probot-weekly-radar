@@ -7,6 +7,7 @@ const { promisify } = require('util');
 const SPREADSHEET_ID = '1rvWot0ZcBJVs-z9QU32snG4SyIMwhyC4oSXYMHP73VI';
 const SPREADSHEET_TITLE = 'Test data'
 var data = 0
+// Todo: grab by the tracking URL instead
 var feature = 'MVP feature 2'
 
 /**
@@ -16,9 +17,11 @@ var feature = 'MVP feature 2'
 module.exports = app => {
   // Your code here
   app.log('Yay, the app was loaded!')
+  // When an issue is opened in the repo, do this
   app.on('issues.opened', async context => {
     const payload = context.payload
 
+    // Prevent endless loops
     if (payload.issue.user.login != 'dmleong') {
       return
     } else {
@@ -37,7 +40,7 @@ module.exports = app => {
     //Todo: check if issue comment edit was only the status emoji
     //and do some validation to match it to the right date/column
     const status_emoji = context.payload.comment.body.match(regex)[1].split(' ')[2]
-    // TODO: fix emoji encoding
+    // TODO: fix emoji encoding or map it to a color in the spreadsheet validation
     accessSpreadsheet(status_emoji)
   })
 }
