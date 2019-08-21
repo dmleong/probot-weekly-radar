@@ -2,5 +2,5 @@ node_modules*
 .env
 *.pem
 .DS_Store
-credentials.json
 google-sheets-token.json
+credentials.json
