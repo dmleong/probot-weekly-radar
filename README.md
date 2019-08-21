@@ -6,6 +6,10 @@
 
 ![progress gif](update-spreadsheets-github-checkbox.gif)
 
+## History
+
+Lessons learned in a [tweet thread](https://twitter.com/tsunamino/status/1157847680141254657)
+
 ## Setup
 
 ```sh
@@ -15,6 +19,10 @@ npm install
 # Run the bot
 npm start
 ```
+## Google sheets API creds
+
+Most documentation is very hard to read. I recommend [this tutorial](https://www.twilio.com/blog/2017/03/google-spreadsheets-and-javascriptnode-js.html)
+
 
 ## Contributing
 
