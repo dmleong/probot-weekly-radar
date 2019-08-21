@@ -19,6 +19,9 @@ npm install
 # Run the bot
 npm start
 ```
+
+Don't forget to [add the app to your repos](https://probot.github.io/docs/development/#configuring-a-github-app). 
+
 ## Google sheets API creds
 
 Most documentation is very hard to read. I recommend [this tutorial](https://www.twilio.com/blog/2017/03/google-spreadsheets-and-javascriptnode-js.html)
