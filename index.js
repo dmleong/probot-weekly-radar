@@ -9,39 +9,45 @@ const SPREADSHEET_TITLE = 'Test data'
 var data = 0
 // Todo: grab by the tracking URL instead
 var feature = 'MVP feature 2'
+var status_colors = {
+  'green': ['♻', 9851, '267B'],
+  'yellow': ['⚠', 9888, '26A0'],
+  'red': ['🛑', 55357, '1F6D1'],
+  'black': ['🚢', 128755, 'd83d'],
+  'grey': ['⏸', 9208, '23f8']
+}
+
+const emojiUnicode = require("emoji-unicode")
+const toEmoji = require("emoji-name-map")
 
 /**
  * This is the main entrypoint to your Probot app
  * @param {import('probot').Application} app
  */
 module.exports = app => {
-  // Your code here
   app.log('Yay, the app was loaded!')
-  // When an issue is opened in the repo, do this
-  app.on('issues.opened', async context => {
-    const payload = context.payload
-
-    // Prevent endless loops
-    if (payload.issue.user.login != 'dmleong') {
-      return
-    } else {
-      // Post a comment on the issue
-      const params = context.issue({ body: 'Stardust update\r\n- [ ] ♻️ All good \r\n- [ ] ⚠️ Behind schedule \r\n- [ ] 🔥 Blocked and in danger' })
-      return context.github.issues.createComment(params)
-
-      app.log("Logging app!")
-    }
-  })
-
   app.on('issue_comment.edited', async context => {
     const regex = /(\-\s\[x\]\s.)/i
     app.log(context.payload.comment.body)
+    var comment_body = context.payload.comment.body
 
     //Todo: check if issue comment edit was only the status emoji
-    //and do some validation to match it to the right date/column
-    const status_emoji = context.payload.comment.body.match(regex)[1].split(' ')[2]
-    // TODO: fix emoji encoding or map it to a color in the spreadsheet validation
-    accessSpreadsheet(status_emoji)
+    //and check if nothing is checked
+    if (comment_body.match(regex)) {
+      var status_emoji = context.payload.comment.body.match(regex)[1].split(' ')[2]
+      app.log(emojiUnicode(status_emoji))
+
+      for (let obj in status_colors) {
+        console.log(status_colors[obj])
+        if (status_colors[obj].includes(status_emoji)) {
+          accessSpreadsheet(obj)
+          app.log("Success!" + obj)
+        }
+      }
+
+    } else {
+      app.log("No status")
+    }
   })
 }
 
