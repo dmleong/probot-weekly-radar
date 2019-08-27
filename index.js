@@ -4,8 +4,8 @@ var creds = require('./google-sheets-token.json');
 const { promisify } = require('util');
 
 // Create a document object using the ID of the spreadsheet - obtained from its URL.
-const SPREADSHEET_ID = '1rvWot0ZcBJVs-z9QU32snG4SyIMwhyC4oSXYMHP73VI';
-const SPREADSHEET_TITLE = 'Test data'
+const SPREADSHEET_ID = '1feRnLYA4KYoe6NLtg50w3e33rYZpCJtS5cYhIo-YH38';
+const SPREADSHEET_TITLE = 'Week-by-Week: Initiative Status'
 var data = 0
 // Todo: grab by the tracking URL instead
 var feature = 'MVP feature 2'
@@ -27,16 +27,16 @@ module.exports = app => {
     const regex = /(\-\s\[x\]\s.(.*?)\:)/i
     app.log(context.payload.comment.body)
     var comment_body = context.payload.comment.body
+    var url = context.payload.issue.html_url
 
     //Todo: check if issue comment edit was only the status emoji
     //and check if nothing is checked
+    //and add error validations
     if (comment_body.match(regex)) {
       var status_emoji = context.payload.comment.body.match(regex)[1].split(' ')[2]
-      app.log(status_emoji)
 
       var key = Object.keys(status_colors).filter(function(key) {return status_colors[key] === status_emoji})[0];
-      app.log(key)
-      accessSpreadsheet(key)
+      accessSpreadsheet(key, url)
 
     } else {
       app.log("No status")
@@ -44,7 +44,7 @@ module.exports = app => {
   })
 }
 
-async function accessSpreadsheet(status_emoji) {
+async function accessSpreadsheet(status_emoji, url) {
   // Get the Google spreadsheet
   const doc = new GoogleSpreadsheet(SPREADSHEET_ID)
   await promisify(doc.useServiceAccountAuth)(creds)
@@ -64,7 +64,7 @@ async function accessSpreadsheet(status_emoji) {
 
   // Find the feature we want to update
   for (const cell of cells) {
-      if (cell.value === feature) {
+      if (cell.value === url) {
         data = cells.indexOf(cell)
       }
   }
@@ -78,10 +78,14 @@ async function updateNextEmptyStatusCell(cells, data, status_emoji){
     data++
   }
   // TODO: Validate the date to only update the relevant status for the week
+  // TODO: Clear cell if empty value is passed
   while (cells[data].value)
+  if (status_emoji) {
+    status_emoji.charAt(0).toUpperCase() + status_emoji.slice(1)
 
-  var cell = cells[data];
-  cell.value = status_emoji;
-  // Update spreadsheet
-  await cell.save();
+    var cell = cells[data];
+    cell.value = status_emoji;
+    // Update spreadsheet
+    await cell.save();
+  }
 }
