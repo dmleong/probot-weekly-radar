@@ -33,9 +33,9 @@ module.exports = app => {
     //and check if nothing is checked
     //and add error validations
     if (comment_body.match(regex)) {
-      var status_emoji = context.payload.comment.body.match(regex)[1].split(' ')[2]
+      var status = context.payload.comment.body.match(regex)[1].split(' ')[2]
 
-      var key = Object.keys(status_colors).filter(function(key) {return status_colors[key] === status_emoji})[0];
+      var key = Object.keys(status_colors).filter(function(key) {return status_colors[key] === status})[0];
       accessSpreadsheet(key, url)
 
     } else {
@@ -44,7 +44,7 @@ module.exports = app => {
   })
 }
 
-async function accessSpreadsheet(status_emoji, url) {
+async function accessSpreadsheet(status, url) {
   // Get the Google spreadsheet
   const doc = new GoogleSpreadsheet(SPREADSHEET_ID)
   await promisify(doc.useServiceAccountAuth)(creds)
@@ -69,22 +69,23 @@ async function accessSpreadsheet(status_emoji, url) {
       }
   }
 
-  updateNextEmptyStatusCell(cells, data, status_emoji)
+  updateNextEmptyStatusCell(cells, data, status)
 }
 
 // Update the next empty cell with the status from the GitHub comment
-async function updateNextEmptyStatusCell(cells, data, status_emoji){
+async function updateNextEmptyStatusCell(cells, data, status){
   do {
     data++
   }
   // TODO: Validate the date to only update the relevant status for the week
   // TODO: Clear cell if empty value is passed
   while (cells[data].value)
-  if (status_emoji) {
-    status_emoji.charAt(0).toUpperCase() + status_emoji.slice(1)
+  if (status) {
+    status.charAt(0).toUpperCase() + status.slice(1)
 
     var cell = cells[data];
-    cell.value = status_emoji;
+    //TODO: get the validated cell value instead of putting in the status word
+    cell.value = status;
     // Update spreadsheet
     await cell.save();
   }
