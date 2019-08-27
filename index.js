@@ -17,8 +17,6 @@ var status_colors = {
   'grey': ':pause_button:'
 }
 
-const unicode = require("emoji-unicode-map");
-
 /**
  * This is the main entrypoint to your Probot app
  * @param {import('probot').Application} app
