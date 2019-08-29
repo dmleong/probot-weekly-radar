@@ -69,11 +69,11 @@ async function accessSpreadsheet(status, url) {
       }
   }
 
-  updateNextEmptyStatusCell(cells, data, status)
+  updateStatusCell(cells, data, status)
 }
 
 // Update the next empty cell with the status from the GitHub comment
-async function updateNextEmptyStatusCell(cells, data, status){
+async function updateStatusCell(cells, data, status){
   do {
     data++
   }
@@ -84,9 +84,40 @@ async function updateNextEmptyStatusCell(cells, data, status){
     status.charAt(0).toUpperCase() + status.slice(1)
 
     var cell = cells[data];
-    //TODO: get the validated cell value instead of putting in the status word
+    // Only update the a cell within the right date range
+    var today = new Date();
+    var status_due_date = new Date(cells[cell.col-1].value)
+    console.log(status_due_date)
+    status_due_date.setYear(2019)
+
+    console.log(today)
+    console.log(status_due_date)
+    console.log(checkDate(status_due_date - today))
+
     cell.value = status;
     // Update spreadsheet
-    await cell.save();
+    // await cell.save();
   }
+}
+
+//Todo: Clean up logic
+function checkDate( milliseconds ) {
+    var day, hour, minute, seconds;
+    seconds = Math.floor(milliseconds / 1000);
+    minute = Math.floor(seconds / 60);
+    seconds = seconds % 60;
+    hour = Math.floor(minute / 60);
+    minute = minute % 60;
+    day = Math.floor(hour / 24);
+    hour = hour % 24;
+
+    // Only return true if within the same week as
+    // the due date
+    if (day > 6) {
+      return false
+    } else if (day >= 0 && hour < 24) {
+      return true
+    } else {
+      return false
+    }
 }
