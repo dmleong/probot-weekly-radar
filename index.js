@@ -71,20 +71,26 @@ async function updateStatusCell(cells, data, status){
   do {
     data++
   }
-  // TODO: Clear cell if empty value is passed
+
+  // Get the last empty cell in the range
   while (cells[data].value)
   var cell = cells[data];
   status.charAt(0).toUpperCase() + status.slice(1)
-  console.log(status)
 
-  // Only update the a cell within the right date range
+  // Check if the date range is within the right week for status update
   var today = new Date();
   var status_due_date = new Date(cells[cell.col-1].value)
   status_due_date.setYear(2019)
 
-  cell.value = status
   // Update spreadsheet
-  if (checkDate(status_due_date - today)) {
+  if (status === "") {
+    // Clear status if status is empty
+    cell = cells[data-1]
+    cell.value = ""
+    await cell.save()
+  } else if (checkDate(status_due_date - today)){
+    // Check if within the right time frame
+    cell.value = status
     await cell.save()
   } else {
     console.log("Do not update")
