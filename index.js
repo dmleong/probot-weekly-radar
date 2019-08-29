@@ -28,19 +28,13 @@ module.exports = app => {
     app.log(context.payload.comment.body)
     var comment_body = context.payload.comment.body
     var url = context.payload.issue.html_url
+    var key = ""
 
-    //Todo: check if issue comment edit was only the status emoji
-    //and check if nothing is checked
-    //and add error validations
     if (comment_body.match(regex)) {
       var status = context.payload.comment.body.match(regex)[1].split(' ')[2]
-
-      var key = Object.keys(status_colors).filter(function(key) {return status_colors[key] === status})[0];
-      accessSpreadsheet(key, url)
-
-    } else {
-      app.log("No status")
+      key = Object.keys(status_colors).filter(function(key) {return status_colors[key] === status})[0];
     }
+    accessSpreadsheet(key, url)
   })
 }
 
@@ -77,26 +71,23 @@ async function updateStatusCell(cells, data, status){
   do {
     data++
   }
-  // TODO: Validate the date to only update the relevant status for the week
   // TODO: Clear cell if empty value is passed
   while (cells[data].value)
-  if (status) {
-    status.charAt(0).toUpperCase() + status.slice(1)
+  var cell = cells[data];
+  status.charAt(0).toUpperCase() + status.slice(1)
+  console.log(status)
 
-    var cell = cells[data];
-    // Only update the a cell within the right date range
-    var today = new Date();
-    var status_due_date = new Date(cells[cell.col-1].value)
-    console.log(status_due_date)
-    status_due_date.setYear(2019)
+  // Only update the a cell within the right date range
+  var today = new Date();
+  var status_due_date = new Date(cells[cell.col-1].value)
+  status_due_date.setYear(2019)
 
-    console.log(today)
-    console.log(status_due_date)
-    console.log(checkDate(status_due_date - today))
-
-    cell.value = status;
-    // Update spreadsheet
-    // await cell.save();
+  cell.value = status
+  // Update spreadsheet
+  if (checkDate(status_due_date - today)) {
+    await cell.save()
+  } else {
+    console.log("Do not update")
   }
 }
 
