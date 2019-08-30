@@ -85,6 +85,7 @@ async function updateStatusCell(cells, data, status){
   // Update spreadsheet
   if (status === "") {
     // Clear status if status is empty
+    // TODO: Fix bug where status clears more than 1
     cell = cells[data-1]
     cell.value = ""
     await cell.save()
