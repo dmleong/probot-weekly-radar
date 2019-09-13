@@ -1,15 +1,13 @@
 // Set up auth for Google spreadsheet
-var GoogleSpreadsheet = require('google-spreadsheet');
-var creds = require('./google-sheets-token.json');
-const { promisify } = require('util');
+const GoogleSpreadsheet = require('google-spreadsheet')
+const creds = require('./google-sheets-token.json')
+const { promisify } = require('util')
 
 // Create a document object using the ID of the spreadsheet - obtained from its URL.
-const SPREADSHEET_ID = '1feRnLYA4KYoe6NLtg50w3e33rYZpCJtS5cYhIo-YH38';
+const SPREADSHEET_ID = '1feRnLYA4KYoe6NLtg50w3e33rYZpCJtS5cYhIo-YH38'
 const SPREADSHEET_TITLE = 'Week-by-Week: Initiative Status'
-var data = 0
 // Todo: grab by the tracking URL instead
-var feature = 'MVP feature 2'
-var status_colors = {
+const STATUS_COLORS = {
   'green': ':recycle:',
   'yellow': ':warning:',
   'red': ':x:',
@@ -26,13 +24,13 @@ module.exports = app => {
   app.on('issue_comment.edited', async context => {
     const regex = /(\-\s\[x\]\s.(.*?)\:)/i
     app.log(context.payload.comment.body)
-    var comment_body = context.payload.comment.body
-    var url = context.payload.issue.html_url
-    var key = ""
+    const comment_body = context.payload.comment.body
+    const url = context.payload.issue.html_url
+    let key = ""
 
     if (comment_body.match(regex)) {
-      var status = context.payload.comment.body.match(regex)[1].split(' ')[2]
-      key = Object.keys(status_colors).filter(function(key) {return status_colors[key] === status})[0];
+      const status = context.payload.comment.body.match(regex)[1].split(' ')[2]
+      key = Object.keys(STATUS_COLORS).find((key) => STATUS_COLORS[key] === status);
     }
     accessSpreadsheet(key, url)
   })
@@ -55,26 +53,16 @@ async function accessSpreadsheet(status, url) {
       'max-col': sheet.colCount,
       'return-empty': true,
   })
+  
+  const index = cells.findIndex(cell => cell.value === url);
 
-  // Find the feature we want to update
-  for (const cell of cells) {
-      if (cell.value === url) {
-        data = cells.indexOf(cell)
-      }
-  }
-
-  updateStatusCell(cells, data, status)
+  updateStatusCell(cells, index, status)
 }
 
 // Update the next empty cell with the status from the GitHub comment
-async function updateStatusCell(cells, data, status){
-  do {
-    data++
-  }
-
-  // Get the last empty cell in the range
-  while (cells[data].value)
-  var cell = cells[data];
+async function updateStatusCell(cells, index, status) {
+  const emptyIndex = cells.findIndex(cell => !cell.value);
+  const cell = cells[emptyIndex];
   status.charAt(0).toUpperCase() + status.slice(1)
 
   // Check if the date range is within the right week for status update
@@ -86,9 +74,9 @@ async function updateStatusCell(cells, data, status){
   if (status === "") {
     // Clear status if status is empty
     // TODO: Fix bug where status clears more than 1
-    cell = cells[data-1]
-    cell.value = ""
-    await cell.save()
+    const previousCell = cells[emptyIndex - 1]
+    previousCell.value = ""
+    await previousCell.save()
   } else if (checkDate(status_due_date - today)){
     // Check if within the right time frame
     cell.value = status
